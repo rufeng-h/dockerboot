@@ -15,3 +15,12 @@ spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     default-property-inclusion: non_null
+    time-zone: GMT+8
+  profiles:
+    active: @environment@
+
+
+springdoc:
+  swagger-ui:
+    path: /docs
+  packages-to-scan: com.windcf.dockerboot.controller

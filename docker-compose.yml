@@ -1,0 +1,46 @@
+version: "3.8"
+
+services:
+  boot:
+    image: dockerboot:1.0
+    container_name: dockerboot
+    ports:
+      - "8080:8080"
+    volumes:
+      - /data/dockerboot:/data
+    networks:
+      - b1
+    depends_on:
+      - redis
+      - mysql
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - /data/redis:/data
+      - /conf/redis:/etc/redis
+    networks:
+      - b1
+    command:
+      - redis-server
+      - /etc/redis/redis.conf
+  mysql:
+    image: mysql
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: '123456'
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'no'
+      MYSQL_DATABASE: 'dockerboot'
+      MYSQL_PASSWORD: '123456'
+    ports:
+      - "3306:3306"
+    volumes:
+      - /data/mysql:/var/lib/mysql
+      - /conf/mysql:/etc/mysql
+      - /var/log/mysql:/var/log/mysql
+    networks:
+      - b1
+networks:
+  b1:
